@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import sys, urllib, urllib2, cookielib, commands, datetime
 
@@ -12,7 +13,7 @@ smAdminParam = {
 
 # ServersManのIDとパスワード
 smAccParam = {
-    'sm-account'  : 'ServersMan用メールアドレス',
+    'sm-account'  : 'ServersManのメールアドレス',
     'sm-password' : 'ServersManのパスワード',
     'q'           : 4,
     'setSMState'  : 0,

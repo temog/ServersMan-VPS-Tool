@@ -1,8 +1,13 @@
-ServersMan@VPS の ServersMan プロセスを監視して、お亡くなりになっていたら自動起動するスクリプトです。
+monitor
+    ServersMan@VPS の ServersMan プロセスを監視して、お亡くなりになっていたら自動起動するスクリプトです。
 
-詳しくは、Blog を見てください。
-http://temog.info/archives/programming/serversman-monitor.html
+    詳しくは、Blog を見てください。
+    http://temog.info/archives/programming/serversman-monitor.html
+
+generateThumbnail
+    ディレクトリ内の画像をThumbnail 化 + html 生成
 
 更新履歴
-  2010/10/14 初コミット
+  2010/10/14 monitor 初コミット
+  2011/04/18 generateThumbnail コミット
 

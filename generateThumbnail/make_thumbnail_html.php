@@ -34,7 +34,7 @@ class GenerateThumbnailHTML {
     //thumbnail画像一覧
     protected $thumbnails = array();
     //html生成フラグ
-    private $updateHTML = true;
+    private $updateHTML = false;
     //画像の親タグ(div)のCSSクラス名
     protected $cssName = 'serversman_pictures';
 

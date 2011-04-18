@@ -6,7 +6,8 @@ $generate = new GenerateThumbnailHTML(
     '/var/serversman/htdocs/MyStorage/android_pic/index.html',
     '/var/serversman/htdocs/MyStorage/android_pic/thumbnail',
     '/android_pic/thumbnail',
-    '100'
+    '100',
+    '600'
 );
 $generate->generate();
 
@@ -24,6 +25,8 @@ class GenerateThumbnailHTML {
     protected $thumbURL;
     //サムネイル画像の横幅(px)
     protected $thumbWidth;
+    //画像の最大横幅(px) 省略時はリサイズしない
+    protected $imgWidth;
 
     //HTMLに出力するサムネイル個数
     protected $numOfThumb = 5;
@@ -39,13 +42,14 @@ class GenerateThumbnailHTML {
     protected $cssName = 'serversman_pictures';
 
     public function __construct($imgPath, $imgURL, $htmlPath,
-            $thumbPath, $thumbURL, $thumbWidth){
+            $thumbPath, $thumbURL, $thumbWidth, $imgWidth = null){
         $this->imgPath = $imgPath;
         $this->imgURL = $imgURL;
         $this->htmlPath = $htmlPath;
         $this->thumbPath = $thumbPath;
         $this->thumbURL = $thumbURL;
         $this->thumbWidth = $thumbWidth;
+        $this->imgWidth = $imgWidth;
     }
 
     public function generate(){
@@ -161,6 +165,30 @@ class GenerateThumbnailHTML {
                 imagepng($thumbImg, $saveThumbPath);
             } else if($ext == ".gif"){
                 imagegif($thumbImg, $saveThumbPath);
+            }
+
+            //画像が最大幅を超えてたらリサイズ
+            if($this->imgWidth && $width > $this->imgWidth){
+                $resizeHeight = ($this->imgWidth / $width) * $height;
+                $resizeImg = imagecreatetruecolor($this->imgWidth, $resizeHeight);
+                imagecopyresampled($resizeImg, $img, 0, 0, 0, 0,
+                    $this->imgWidth, $resizeHeight, $width, $height);
+
+                unlink($this->imgPath . "/" . $file);
+
+                switch($ext){
+                    case ".jpg":
+                        imagejpeg($resizeImg, $this->imgPath . "/" . $file, 90);
+                        break;
+                    case ".png":
+                        imagepng($resizeImg, $this->imgPath . "/" . $file);
+                        break;
+                    case ".gif":
+                        imagegif($resizeImg, $this->imgPath . "/" . $file);
+                        break;
+                    default:
+                        $this->stderr("invalid extension");
+                }
             }
 
             //メモリ解放
